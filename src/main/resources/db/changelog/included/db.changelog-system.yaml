@@ -281,7 +281,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: token
-                  type: BLOB
+                  type: bytea
               - column:
                   name: user_name
                   type: varchar(255)
@@ -290,7 +290,7 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: authentication
-                  type: BLOB
+                  type: bytea
               - column:
                   name: refresh_token
                   type: varchar(255)
@@ -307,7 +307,7 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: token
-                  type: BLOB
+                  type: bytea
               - column:
                   name: authentication
-                  type: BLOB
+                  type: bytea
