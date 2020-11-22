@@ -1,4 +1,4 @@
-package com.app.blog.config;
+package com.app.blog.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,13 +11,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 @Configuration
 @EnableAuthorizationServer
-public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
-
+public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter {
     static final String CLIENT_ID = "blog";
     static final String CLIENT_SECRET = "blog";
     static final String GRANT_TYPE = "password";
@@ -38,7 +36,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .inMemory()
                 .withClient(CLIENT_ID)
                 .secret("{noop}" + CLIENT_SECRET)
-                .authorizedGrantTypes(GRANT_TYPE, "refresh_token")
+                .authorizedGrantTypes("password", "refresh_token")
                 .scopes(SCOPE_READ, SCOPE_WRITE)
                 .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS).
                 refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
@@ -48,6 +46,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).
                 tokenStore(tokenStore).authenticationManager(authenticationManager);
+//                tokenEnhancer(tokenEnhancer());
     }
 
     @Override
@@ -59,12 +58,4 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-    public TokenEnhancer tokenEnhancer() {
-        return new CustomTokenEnhancer();
-    }
-
-
-
 }

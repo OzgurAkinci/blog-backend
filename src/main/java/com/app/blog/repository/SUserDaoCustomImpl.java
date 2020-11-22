@@ -30,7 +30,7 @@ public class SUserDaoCustomImpl implements SUserDaoCustom {
 
     @Override
     public SUser findUserByUserName(String userName) {
-        Query q = entityManager.createNativeQuery("select * from s_user where user_name='"+userName+"'", SUser.class);
+        Query q = entityManager.createNativeQuery("select * from s_user where username='"+userName+"'", SUser.class);
         return (SUser) q.getSingleResult();
     }
 
@@ -38,11 +38,11 @@ public class SUserDaoCustomImpl implements SUserDaoCustom {
     @Override
     public List<SUser> findUsersOrder(String userName, String name, String surname) {
         StringBuffer qString = new StringBuffer();
-        qString.append("select * from s_user p where (p.user_name = :user_name or :user_name is null) "
+        qString.append("select * from s_user p where (p.username = :username or :username is null) "
                 + "and (nls_upper(p.name, 'NLS_SORT=xTURKISH') like nls_upper('%' || :name || '%', 'NLS_SORT=xTURKISH')) "
                 + "and (nls_upper(p.surname, 'NLS_SORT=xTURKISH') like nls_upper('%' || :surname || '%', 'NLS_SORT=xTURKISH')) order by p.name,p.surname");
         Query q = entityManager.createNativeQuery(qString.toString(), SUser.class)
-                .setParameter("user_name", userName)
+                .setParameter("username", userName)
                 .setParameter("name", name)
                 .setParameter("surname", surname);
         return q.getResultList();
@@ -64,7 +64,7 @@ public class SUserDaoCustomImpl implements SUserDaoCustom {
 
     @Override
     public List<SUser> findByUserNameOrEmail(String userName, String email) {
-        return entityManager.createQuery("select t from SUser t where t.userName=:prmUserName or t.email=:prmEmail").setParameter("prmUserName", userName).setParameter("prmEmail", email).getResultList();
+        return entityManager.createQuery("select t from SUser t where t.username=:prmUserName or t.email=:prmEmail").setParameter("prmUserName", userName).setParameter("prmEmail", email).getResultList();
     }
 
 

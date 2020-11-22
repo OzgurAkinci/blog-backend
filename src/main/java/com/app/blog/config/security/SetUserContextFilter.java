@@ -1,6 +1,7 @@
-package com.app.blog.config;
+package com.app.blog.config.security;
 
 import com.app.blog.repository.SUserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -15,10 +16,11 @@ import java.io.IOException;
 
 @Component
 public class SetUserContextFilter extends GenericFilterBean {
-    private final SUserDao userDao;
+    @Autowired
+    private final SUserDao userRepository;
 
-    public SetUserContextFilter(SUserDao userDao) {
-        this.userDao = userDao;
+    public SetUserContextFilter(SUserDao userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class SetUserContextFilter extends GenericFilterBean {
                 OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) oAuth2Authentication.getUserAuthentication();
                 CustomUserDetails user = (CustomUserDetails) usernamePasswordAuthenticationToken.getPrincipal();
-                UserContext.setActiveUser(userDao.findByUserName(user.getUsername()));
+                UserContext.setActiveUser(userRepository.findByUserName(user.getUsername()));
         }
         chain.doFilter(request, response);
     }

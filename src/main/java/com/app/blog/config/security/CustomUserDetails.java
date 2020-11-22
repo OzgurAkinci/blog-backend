@@ -1,5 +1,4 @@
-package com.app.blog.config;
-
+package com.app.blog.config.security;
 
 
 import com.app.blog.domain.SRole;
@@ -19,12 +18,20 @@ public class CustomUserDetails implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private String password;
     private String username;
+    private Boolean accountNonExpired;
+    private Boolean enabled;
+    private Boolean credentialsNonExpired;
+    private Boolean accountNonLocked;
 
 
-    public CustomUserDetails(SUser SUser, List<SRole> roles) {
+    public CustomUserDetails(SUser SUser, List<SRole> roles, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean accountNonLocked) {
         this.username = SUser.getUsername();
         this.password = SUser.getPassword();
         this.authorities = translate(roles);
+        this.enabled = true;
+        this.accountNonExpired = accountNonExpired;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.accountNonLocked = accountNonLocked;
     }
 
     private Collection<? extends GrantedAuthority> translate(List<SRole> roles) {
@@ -56,22 +63,22 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return credentialsNonExpired;
     }
 
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

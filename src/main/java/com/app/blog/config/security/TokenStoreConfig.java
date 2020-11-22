@@ -1,4 +1,4 @@
-package com.app.blog.config;
+package com.app.blog.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +15,7 @@ public class TokenStoreConfig {
 
     @Bean
     public TokenStore tokenStore() {
-         return new JdbcTokenStore(jdbcTemplate.getDataSource());
-        //return new CustomTokenStore(jdbcTemplate.getDataSource());
+        return new JdbcTokenStore(jdbcTemplate.getDataSource());
     }
 
     @Bean

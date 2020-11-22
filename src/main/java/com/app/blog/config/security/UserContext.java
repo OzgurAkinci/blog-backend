@@ -1,4 +1,4 @@
-package com.app.blog.config;
+package com.app.blog.config.security;
 
 
 import com.app.blog.domain.SUser;

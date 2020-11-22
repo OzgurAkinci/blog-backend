@@ -1,20 +1,21 @@
-package com.app.blog.config;
+package com.app.blog.config.security;
 
-
-import com.app.blog.domain.SRole;
 import com.app.blog.domain.SUser;
-import com.app.blog.repository.AppDao;
+import com.app.blog.repository.SUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CustomTokenEnhancer implements TokenEnhancer {
     @Autowired
-    protected AppDao appDao;
+    protected SUserDao userRepository;
 
 
     private List<TokenEnhancer> delegates = Collections.emptyList();
@@ -25,24 +26,26 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        return enhanceNew(appDao, accessToken, authentication);
+        return enhanceNew(userRepository, accessToken, authentication);
     }
 
-    public OAuth2AccessToken enhanceNew(AppDao providedAppDao, OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+    public OAuth2AccessToken enhanceNew(SUserDao userRepository, OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         DefaultOAuth2AccessToken tempResult = (DefaultOAuth2AccessToken) accessToken;
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getUserAuthentication().getPrincipal();
-        SUser daoSUser = providedAppDao.getUserDao().findByUserName(userDetails.getUsername());
+        SUser daoSUser = userRepository.findByUserName(userDetails.getUsername());
         final Map<String, Object> additionalInformation = new HashMap<String, Object>();
         additionalInformation.put("id", daoSUser.getId());
         additionalInformation.put("username", daoSUser.getUsername());
         additionalInformation.put("email", daoSUser.getEmail());
-        additionalInformation.put("permissions", providedAppDao.getUserDao().findPermissionsByUser(daoSUser.getId()));
-        List<String> roles = new ArrayList<String>();
-        for (SRole role : providedAppDao.getUserRoleDao().findByUser(daoSUser.getId())) {
-            roles.add(role.getRoleName());
-        }
-        additionalInformation.put("roles", roles.toArray());
+        additionalInformation.put("first_name", daoSUser.getName());
+        additionalInformation.put("last_name", daoSUser.getSurname());
+        //additionalInformation.put("permissions", providedFwDao.getUserDao().findPermissionsByUser(daoSUser.getId()));
+        //List<String> roles = new ArrayList<String>();
+        //for (Role role : providedFwDao.getUserRoleDao().findByUser(daoSUser.getId())) {
+        //    roles.add(role.getRoleName());
+        //}
+        //additionalInformation.put("roles", roles.toArray());
         tempResult.setAdditionalInformation(additionalInformation);
 
         OAuth2AccessToken result = tempResult;

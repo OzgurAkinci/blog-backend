@@ -1,5 +1,4 @@
 package com.app.blog.config;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

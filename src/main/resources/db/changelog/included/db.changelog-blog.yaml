@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: post_seq_22-11-2020-23-20-01
+      author: system
+      comment: "Create Post Table Sequence"
+      objectQuotingStrategy: LEGACY
+      changes:
+        - createSequence:
+            startValue: 1
+            incrementBy: 1
+            sequenceName: s_post_seq
+
+  - changeSet:
+      id: s_post_22-11-2020-23-20-01
+      author: system
+      comment: "Create Post Table"
+      changes:
+        - createTable:
+            tableName: s_post
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: post_title
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: post_detail
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(155)
+              - column:
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_modified_by
+                  type: varchar(155)
+              - column:
+                  name: last_modified_date
+                  type: timestamp

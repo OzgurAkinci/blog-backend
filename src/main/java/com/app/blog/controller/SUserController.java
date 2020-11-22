@@ -3,6 +3,7 @@ package com.app.blog.controller;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import com.app.blog.config.security.CustomUserDetails;
 import com.app.blog.domain.CustomListCollection;
 import com.app.blog.domain.SUser;
 import com.app.blog.repository.SUserDao;
@@ -12,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -81,5 +85,15 @@ public class SUserController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<SUser> (HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping("/currentUser")
+	SUser currentUser() {
+		OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) oAuth2Authentication.getUserAuthentication();
+		CustomUserDetails customUserDetails = (CustomUserDetails) usernamePasswordAuthenticationToken.getPrincipal();
+		SUser suser= userDao.findUserByUserName(customUserDetails.getUsername());
+		suser.setPassword("*************************");
+		return suser;
 	}
 }
