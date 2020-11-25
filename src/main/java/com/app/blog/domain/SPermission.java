@@ -21,11 +21,11 @@ import java.util.List;
 public class SPermission extends Auditable<String> implements Serializable {
 
     @Id
-    @GenericGenerator(name = "gen_s_permission_id_seq", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {@org.hibernate.annotations.Parameter(name = "hibernate_sequence", value = "s_permission_id_seq"),
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "s_permission_id_seq")}
+    @GenericGenerator(name = "gen_s_permission_seq", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {@org.hibernate.annotations.Parameter(name = "hibernate_sequence", value = "s_permission_seq"),
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "s_permission_seq")}
     )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_s_permission_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_s_permission_seq")
     private Integer id;
 
     @Column(name = "name")

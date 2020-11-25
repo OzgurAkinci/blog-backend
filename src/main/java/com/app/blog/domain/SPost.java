@@ -2,6 +2,7 @@ package com.app.blog.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -13,8 +14,12 @@ import javax.persistence.*;
 @Audited
 public class SPost extends Auditable<String>{
 	@Id
-	@SequenceGenerator(name = "s_post_seq", sequenceName = "s_post_seq", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(generator = "s_post_seq", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name = "gen_s_post_seq", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+			parameters = {@org.hibernate.annotations.Parameter(name = "hibernate_sequence", value = "s_post_seq"),
+					@org.hibernate.annotations.Parameter(name = "sequence_name", value = "s_post_seq")}
+	)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_s_post_seq")
+	@Column(name = "id")
 	private Integer id;
 
 	@Column(name = "post_title")

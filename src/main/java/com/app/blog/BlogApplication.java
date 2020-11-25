@@ -24,7 +24,7 @@ public class BlogApplication extends SpringBootServletInitializer {
 		return builder.sources(BlogApplication.class);
 	}
 
-	@Bean
+	/*@Bean
 	public ServletWebServerFactory servletContainer() {
 		// Enable SSL Trafic
 		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
@@ -53,6 +53,6 @@ public class BlogApplication extends SpringBootServletInitializer {
 		connector.setSecure(false);
 		connector.setRedirectPort(8182);
 		return connector;
-	}
+	}*/
 
 }
