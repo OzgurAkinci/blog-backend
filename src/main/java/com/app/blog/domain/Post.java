@@ -1,11 +1,18 @@
 package com.app.blog.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "post")
@@ -27,4 +34,23 @@ public class Post extends Auditable<String>{
 
 	@Column(name = "post_detail")
 	private String postDetail;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinTable(
+			name = "post_category",
+			joinColumns = {@JoinColumn(name = "post_id", referencedColumnName = "id")},
+			inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")}
+	)
+	//@JsonManagedReference
+	//@JsonIgnore
+	private Set<Category> categories = new HashSet<>();
+
+	@Override
+	public String toString() {
+		return "Post{" +
+				"id=" + id +
+				", postTitle='" + postTitle + '\'' +
+				", categories='" + categories.stream().map(Category::getCategoryName).collect(Collectors.toList()) + '\'' +
+				'}';
+	}
 }

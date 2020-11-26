@@ -13,9 +13,9 @@ import java.util.List;
 @RepositoryRestResource
 public interface PostDao extends JpaRepository<Post, Integer>{
 	@Query("SELECT count(id) FROM Post")
-	public Long getTotalCount() throws Exception;
+	Long getTotalCount() throws Exception;
 
 	@Query("SELECT e FROM Post e WHERE e.postTitle like %:postTitle%")
-	public List<Post> findPostByFilters(@Param("postTitle") String postTitle, Pageable pageable) throws Exception;
+	List<Post> findPostByFilters(@Param("postTitle") String postTitle, Pageable pageable) throws Exception;
 }	
 

@@ -149,12 +149,6 @@ databaseChangeLog:
             tableName: post_category
             columns:
               - column:
-                  name: id
-                  type: int
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
                   name: post_id
                   type: int
                   constraints:
@@ -189,12 +183,6 @@ databaseChangeLog:
         - createTable:
             tableName: post_tag
             columns:
-              - column:
-                  name: id
-                  type: int
-                  constraints:
-                    primaryKey: true
-                    nullable: false
               - column:
                   name: tag_name
                   type: text

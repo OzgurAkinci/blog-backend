@@ -1,11 +1,15 @@
 package com.app.blog.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -27,4 +31,17 @@ public class Category extends Auditable<String>{
 
 	@Column(name = "parent_category_id")
 	private Integer parentCategoryId;
+
+/*	@ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	//@JsonBackReference
+	@JsonIgnore
+	private Set<Post> posts = new HashSet<>();*/
+
+	@Override
+	public String toString() {
+		return "Category{" +
+				"id=" + id +
+				", categoryName='" + categoryName + '\'' +
+				'}';
+	}
 }

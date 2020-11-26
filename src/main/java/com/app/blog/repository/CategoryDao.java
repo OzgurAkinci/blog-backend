@@ -13,9 +13,9 @@ import java.util.List;
 @RepositoryRestResource
 public interface CategoryDao extends JpaRepository<Category, Integer>{
 	@Query("SELECT count(id) FROM Category")
-	public Long getTotalCount() throws Exception;
+	Long getTotalCount() throws Exception;
 
 	@Query("SELECT e FROM Category e WHERE e.categoryName like %:categoryName%")
-	public List<Category> findCategoryByFilters(@Param("categoryName") String categoryName, Pageable pageable) throws Exception;
+	List<Category> findCategoryByFilters(@Param("categoryName") String categoryName, Pageable pageable) throws Exception;
 }	
 
