@@ -1,8 +1,7 @@
 package com.app.blog.repository;
 
 
-import com.app.blog.domain.SPost;
-import com.app.blog.domain.SRole;
+import com.app.blog.domain.Category;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,11 +11,11 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 @RepositoryRestResource
-public interface SPostDao extends JpaRepository<SPost, Integer>{
-	@Query("SELECT count(id) FROM SPost")
+public interface CategoryDao extends JpaRepository<Category, Integer>{
+	@Query("SELECT count(id) FROM Category")
 	public Long getTotalCount() throws Exception;
 
-	@Query("SELECT e FROM SPost e WHERE e.postTitle like %:postTitle%")
-	public List<SPost> findPostByFilters(@Param("postTitle") String postTitle, Pageable pageable) throws Exception;
+	@Query("SELECT e FROM Category e WHERE e.categoryName like %:categoryName%")
+	public List<Category> findCategoryByFilters(@Param("categoryName") String categoryName, Pageable pageable) throws Exception;
 }	
 

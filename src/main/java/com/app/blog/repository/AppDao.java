@@ -28,5 +28,14 @@ public class AppDao {
     @Autowired
     OauthTokenDao oauthTokenDao;
 
+    @Autowired
+    PostDao postDao;
+
+    @Autowired
+    CategoryDao categoryDao;
+
+    @Autowired
+    TagDao tagDao;
+
 
 }

@@ -8,17 +8,17 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "s_post")
+@Table(name = "post")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @Audited
-public class SPost extends Auditable<String>{
+public class Post extends Auditable<String>{
 	@Id
-	@GenericGenerator(name = "gen_s_post_seq", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-			parameters = {@org.hibernate.annotations.Parameter(name = "hibernate_sequence", value = "s_post_seq"),
-					@org.hibernate.annotations.Parameter(name = "sequence_name", value = "s_post_seq")}
+	@GenericGenerator(name = "gen_post_seq", strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+			parameters = {@org.hibernate.annotations.Parameter(name = "hibernate_sequence", value = "post_seq"),
+					@org.hibernate.annotations.Parameter(name = "sequence_name", value = "post_seq")}
 	)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_s_post_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_post_seq")
 	@Column(name = "id")
 	private Integer id;
 

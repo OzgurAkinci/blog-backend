@@ -8,7 +8,29 @@ databaseChangeLog:
         - createSequence:
             startValue: 1
             incrementBy: 1
-            sequenceName: s_post_seq
+            sequenceName: post_seq
+
+  - changeSet:
+      id: category_seq_22-11-2020-23-20-02
+      author: system
+      comment: "Create Category Table Sequence"
+      objectQuotingStrategy: LEGACY
+      changes:
+        - createSequence:
+            startValue: 1
+            incrementBy: 1
+            sequenceName: category_seq
+
+  - changeSet:
+      id: tag_seq_22-11-2020-23-20-02
+      author: system
+      comment: "Create Tag Table Sequence"
+      objectQuotingStrategy: LEGACY
+      changes:
+        - createSequence:
+            startValue: 1
+            incrementBy: 1
+            sequenceName: tag_seq
 
   - changeSet:
       id: s_post_22-11-2020-23-20-01
@@ -16,7 +38,7 @@ databaseChangeLog:
       comment: "Create Post Table"
       changes:
         - createTable:
-            tableName: s_post
+            tableName: post
             columns:
               - column:
                   name: id
@@ -34,6 +56,155 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(155)
+              - column:
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_modified_by
+                  type: varchar(155)
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+
+  - changeSet:
+      id: s_category_22-11-2020-23-20-01
+      author: system
+      comment: "Create Category Table"
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: category_name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_category_id
+                  type: int
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_parent_category_id
+                    references: category(id)
+              - column:
+                  name: created_by
+                  type: varchar(155)
+              - column:
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_modified_by
+                  type: varchar(155)
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+
+  - changeSet:
+      id: s_tag_26-11-2020-23-20-01
+      author: system
+      comment: "Create Tag Table"
+      changes:
+        - createTable:
+            tableName: tag
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: tag_name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(155)
+              - column:
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_modified_by
+                  type: varchar(155)
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+
+  - changeSet:
+      id: s_post_category_22-11-2020-23-20-01
+      author: system
+      comment: "Create PostCategory Table"
+      changes:
+        - createTable:
+            tableName: post_category
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: post_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_post_category_post_id
+                    references: post(id)
+              - column:
+                  name: category_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_post_category_category_id
+                    references: category(id)
+              - column:
+                  name: created_by
+                  type: varchar(155)
+              - column:
+                  name: creation_date
+                  type: timestamp
+              - column:
+                  name: last_modified_by
+                  type: varchar(155)
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+
+  - changeSet:
+      id: s_post_tag_22-11-2020-23-20-01
+      author: system
+      comment: "Create PostTag Table"
+      changes:
+        - createTable:
+            tableName: post_tag
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: tag_name
+                  type: text
+              - column:
+                  name: post_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_post_tag_post_id
+                    references: post(id)
               - column:
                   name: created_by
                   type: varchar(155)
