@@ -12,7 +12,7 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface TagDao extends JpaRepository<Tag, Integer>{
-	@Query("SELECT count(id) FROM Category")
+	@Query("SELECT count(id) FROM Tag")
 	public Long getTotalCount() throws Exception;
 
 	@Query("SELECT e FROM Tag e WHERE e.tagName like %:tagName%")

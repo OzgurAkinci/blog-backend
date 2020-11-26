@@ -62,4 +62,9 @@ public class TagController {
 		}
 		return new ResponseEntity<Tag> (HttpStatus.ACCEPTED);
 	}
+
+	@GetMapping("/getTotalCount")
+	public Long getTotalCount() throws Exception {
+		return appDao.getTagDao().getTotalCount();
+	}
 }

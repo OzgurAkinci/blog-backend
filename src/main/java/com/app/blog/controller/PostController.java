@@ -63,4 +63,9 @@ public class PostController {
 		}
 		return new ResponseEntity<Post> (HttpStatus.ACCEPTED);
 	}
+
+	@GetMapping("/getTotalCount")
+	public Long getTotalCount() throws Exception {
+		return appDao.getPostDao().getTotalCount();
+	}
 }

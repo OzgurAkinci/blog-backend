@@ -62,4 +62,9 @@ public class CategoryController {
 		}
 		return new ResponseEntity<Category> (HttpStatus.ACCEPTED);
 	}
+
+	@GetMapping("/getTotalCount")
+	public Long getTotalCount() throws Exception {
+		return appDao.getCategoryDao().getTotalCount();
+	}
 }
